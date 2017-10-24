@@ -44,7 +44,7 @@ export class Slider extends React.Component<SliderProps> {
     };
 
     render() {
-        const { slides, width, height, slidesToShow, onScroll, onArrow, scrollable, swipeable, className } = this.props;
+        const { slides, width, height, slidesToShow, onScrollStart, onScroll, onRest, onArrow, scrollable, swipeable, className } = this.props;
 
         return (
             <div className={className}>
@@ -60,6 +60,8 @@ export class Slider extends React.Component<SliderProps> {
                             scrollLeft={this.scrollLeft}
                             slidesToShow={slidesToShow}
                             onScroll={onScroll}
+                            onRest={onRest}
+                            onScrollStart={onScrollStart}
                             scrollable={scrollable}
                             swipeable={swipeable}
                             onArrow={onArrow}
@@ -72,7 +74,7 @@ export class Slider extends React.Component<SliderProps> {
 }
 
 Slider.defaultProps = {
-    scrollLeft: 0,
+    index: 0,
     columnCount: 0,
     width: 0,
     height: 0,
@@ -83,25 +85,27 @@ Slider.defaultProps = {
     swipeable: false,
     children: (obj: any) => undefined,
     onScroll: (index: number) => undefined,
+    onScrollStart: () => undefined,
+    onRest: () => undefined,
     onArrow: (e: any) => undefined,
     onResize: (dimensions: any) => undefined,
 };
 
 interface SliderProps {
     slides: any[];
-    index: number;
-    width: number;
-    height: number;
-    slidesToShow: number;
-    scrollLeft: number;
-    columnCount: number;
-    cellRenderer: (obj: any) => any;
+    index?: number;
+    width?: number;
+    height?: number;
+    slidesToShow?: number;
+    columnCount?: number;
     rowHeight: number;
-    onScroll: (obj: any) => void;
-    scrollable: boolean;
-    swipeable: boolean;
-    children: (obj: any) => any;
+    onScrollStart?: () => void;
+    onScroll?: (obj: any) => void;
+    onRest?: () => void;
+    scrollable?: boolean;
+    swipeable?: boolean;
+    children?: (obj: any) => any;
     className?: string;
-    onArrow: (e: any) => void;
-    onResize: (dimensions: any) => void;
+    onArrow?: (e: any) => void;
+    onResize?: (dimensions: any) => void;
 }

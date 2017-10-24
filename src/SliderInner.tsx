@@ -41,6 +41,10 @@ class SliderInner extends React.Component<ISliderCoreProps, any> {
         return this.props.width / this.props.slidesToShow
     }
 
+    get synced() {
+        return this.state.scrollLeft === this.props.scrollLeft;
+    }
+
     componentWillReceiveProps(nextProps: ISliderCoreProps) {
         if (nextProps.scrollLeft !== this.state.scrollLeft) {
             this.setState({ scrollLeft: nextProps.scrollLeft });
@@ -49,6 +53,10 @@ class SliderInner extends React.Component<ISliderCoreProps, any> {
 
     componentDidUpdate() {
         this.el._scrollingContainer.style.overflow = "hidden";
+
+        if (this.synced) {
+            this.recompute();
+        }
     }
 
     bindRef = (grid: any) => {
@@ -60,7 +68,6 @@ class SliderInner extends React.Component<ISliderCoreProps, any> {
 
         const containerWidth = this.el._scrollingContainer.clientWidth;
         const maxScrollLeft = this.props.columnCount * this.props.columnWidth - containerWidth;
-
         const nextScrollLeft = this.scrollLeft + e.deltaX;
 
         if (nextScrollLeft > 0 && nextScrollLeft <= maxScrollLeft) {
@@ -82,6 +89,11 @@ class SliderInner extends React.Component<ISliderCoreProps, any> {
         const containerWidth = this.el._scrollingContainer.clientWidth;
         const maxScrollLeft = this.props.columnCount * this.props.columnWidth - containerWidth;
         const nextScrollLeft = clamp(this.state.scrollLeft + this.scrollDelta, 0, maxScrollLeft);
+
+        // check if this the start of a new scroll/slider was in sync
+        if (this.state.scrollLeft === this.props.scrollLeft) {
+            this.props.onScrollStart();
+        }
 
         this.setState({ scrollLeft: nextScrollLeft });
 
@@ -135,6 +147,16 @@ class SliderInner extends React.Component<ISliderCoreProps, any> {
         this.lastTouch = touch;
     };
 
+    handleRest = () => {
+        this.props.onRest();
+    };
+
+    recompute = () => {
+        if (!this.el) return;
+
+        this.el.recomputeGridSize();
+    };
+
     addKeydownListener = () => {
         /* workaround to ensure we only have one document listener at a time */
         /* necessary because edge cases can bypass the mouseLeave event */
@@ -164,6 +186,7 @@ class SliderInner extends React.Component<ISliderCoreProps, any> {
                     style={{
                         scrollLeft: spring(stopX, { stiffness: 170, damping: 26 }),
                     }}
+                    onRest={this.handleRest}
                 >
                     {({ scrollLeft }) => {
                         const round = scrollLeft > stopX ? Math.floor : Math.ceil;
@@ -200,7 +223,9 @@ interface ISliderCoreProps {
     cellRenderer: (obj: any) => any;
     rowHeight: number;
     columnWidth: number;
+    onScrollStart: () => void;
     onScroll: (obj: any) => void;
+    onRest: () => void;
     onArrow: (e: any) => void;
     scrollable: boolean;
     swipeable: boolean;
