@@ -72,6 +72,11 @@ class SliderInner extends React.Component<ISliderCoreProps, any> {
     onMouseWheel = (e: React.WheelEvent<HTMLDivElement>) => {
         if (!this.props.scrollable) return;
 
+        const xDist = Math.abs(e.deltaX);
+        const yDist = Math.abs(e.deltaY);
+
+        if (xDist / 2 < yDist) return; // ignore vertical scrolls
+
         const containerWidth = this.el._scrollingContainer.clientWidth;
         const maxScrollLeft = this.props.columnCount * this.props.columnWidth - containerWidth;
         const nextScrollLeft = this.scrollLeft + e.deltaX;
