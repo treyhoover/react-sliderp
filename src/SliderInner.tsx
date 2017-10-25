@@ -46,6 +46,12 @@ class SliderInner extends React.Component<ISliderCoreProps, any> {
     }
 
     componentWillReceiveProps(nextProps: ISliderCoreProps) {
+        const isExternal = nextProps !== this.props;
+
+        if (isExternal) {
+            this.waitForScrollStop.flush();
+        }
+
         if (nextProps.scrollLeft !== this.state.scrollLeft) {
             this.setState({ scrollLeft: nextProps.scrollLeft });
         }
