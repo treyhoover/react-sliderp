@@ -1,7 +1,7 @@
-import * as React from 'react'
+import * as React from "react";
 import { clamp } from "./utils";
 import SliderInner from "./SliderInner";
-import { AutoSizer } from "react-virtualized"
+import { AutoSizer } from "react-virtualized";
 
 export class Slider extends React.PureComponent<SliderProps> {
     static defaultProps: any;
@@ -36,7 +36,10 @@ export class Slider extends React.PureComponent<SliderProps> {
             <div
                 className={"slide"}
                 key={key}
-                style={style}
+                style={{
+                    ...this.props.styleContainer({ slide, index }),
+                    ...style,
+                }}
             >
                 {renderSlide({ slide, index })}
             </div>
@@ -84,6 +87,7 @@ Slider.defaultProps = {
     scrollable: false,
     swipeable: false,
     children: (obj: any) => undefined,
+    styleContainer: (obj: any) => {},
     onScroll: (index: number) => undefined,
     onScrollStart: () => undefined,
     onRest: () => undefined,
@@ -101,6 +105,7 @@ interface SliderProps {
     rowHeight: number;
     onScrollStart?: () => void;
     onScroll?: (obj: any) => void;
+    styleContainer?: (obj: any) => Object;
     onRest?: () => void;
     scrollable?: boolean;
     swipeable?: boolean;
