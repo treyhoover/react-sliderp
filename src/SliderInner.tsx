@@ -15,7 +15,7 @@ const gridStyle = {
     outline: "none",
 };
 
-class SliderInner extends React.Component<ISliderCoreProps, any> {
+class SliderInner extends React.PureComponent<ISliderCoreProps, any> {
     static keyDownListener;
 
     el?: any;

@@ -3,7 +3,7 @@ import { clamp } from "./utils";
 import SliderInner from "./SliderInner";
 import { AutoSizer } from "react-virtualized"
 
-export class Slider extends React.Component<SliderProps> {
+export class Slider extends React.PureComponent<SliderProps> {
     static defaultProps: any;
 
     el: any = null;
