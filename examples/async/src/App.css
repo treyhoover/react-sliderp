@@ -1,0 +1,39 @@
+body {
+    padding: 1rem;
+}
+
+.slider {
+    border: 1px solid black;
+}
+
+.slider .slide {
+    display: flex;
+    align-items: flex-end;
+    width: 100%;
+    height: 100%;
+    color: white;
+    text-decoration: none;
+}
+
+.slideContent {
+    width: 100%;
+    padding: 0.5em;
+    font-size: 1rem;
+    line-height: 1.2;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.title {
+    display: block;
+    max-height: calc(1rem * 1.2);
+    transition: max-height 250ms ease-in-out;
+    overflow: hidden;
+}
+
+.slide:hover .title {
+    max-height: calc(1rem * 1.2 * 5);
+}
+
+.subreddit {
+    margin: 1rem 0;
+}
