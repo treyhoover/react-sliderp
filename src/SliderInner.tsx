@@ -135,7 +135,8 @@ class SliderInner extends React.Component<ISliderCoreProps, any> {
         : { x: e.clientX, y: e.clientY };
 
     onTouchMove = (e) => {
-        if (!this.props.swipeable) return;
+        const { swipeable, swipeForce } = this.props;
+        if (!swipeable) return;
 
         const touch = this.getTouch(e);
 
@@ -144,14 +145,13 @@ class SliderInner extends React.Component<ISliderCoreProps, any> {
             const deltaY = touch.y - this.lastTouch.y;
             const xDist = Math.abs(deltaX);
             const yDist = Math.abs(deltaY);
-            const swipeMultiplier = this.columnWidth / 3;
 
             if (xDist / 2 < yDist) {
                 // ignore vertical swipes
             } else {
                 e.preventDefault();
 
-                this.onSwipe(-deltaX * swipeMultiplier);
+                this.onSwipe(-deltaX * swipeForce);
             }
         }
 
@@ -234,6 +234,7 @@ interface ISliderCoreProps {
     onArrow: (e: any) => void;
     scrollable: boolean;
     swipeable: boolean;
+    swipeForce: number;
 }
 
 export default SliderInner;

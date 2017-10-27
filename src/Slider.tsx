@@ -47,7 +47,7 @@ export class Slider extends React.PureComponent<SliderProps> {
     };
 
     render() {
-        const { slides, width, height, slidesToShow, onScrollStart, onScroll, onRest, onArrow, scrollable, swipeable, className } = this.props;
+        const { slides, width, height, slidesToShow, onScrollStart, onScroll, onRest, onArrow, scrollable, swipeable, className, swipeForce } = this.props;
 
         return (
             <div className={className}>
@@ -68,6 +68,7 @@ export class Slider extends React.PureComponent<SliderProps> {
                             scrollable={scrollable}
                             swipeable={swipeable}
                             onArrow={onArrow}
+                            swipeForce={swipeForce}
                         />
                     )}
                 </AutoSizer>
@@ -83,6 +84,7 @@ Slider.defaultProps = {
     height: 0,
     rowHeight: 0,
     slidesToShow: 1,
+    swipeForce: 3,
     style: {},
     scrollable: false,
     swipeable: false,
@@ -103,6 +105,7 @@ interface SliderProps {
     slidesToShow?: number;
     columnCount?: number;
     rowHeight: number;
+    swipeForce: number;
     onScrollStart?: () => void;
     onScroll?: (obj: any) => void;
     styleContainer?: (obj: any) => Object;
