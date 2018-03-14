@@ -105,7 +105,9 @@ class Resolver {
         const { index, slidesToShow, wraps } = this.getScrollState();
         let nextIndex = index - (n * slidesToShow);
 
-        if (this.isFirstPage(index)) {
+        if (this.isFirstPage(index) && this.isLastPage(index)) {
+            nextIndex = 0;
+        } else if (this.isFirstPage(index)) {
             nextIndex = wraps ? this.lastLeft : 0;
         }
 
@@ -118,7 +120,9 @@ class Resolver {
         const { index, slidesToShow, wraps } = this.getScrollState();
         let nextIndex = index + (n * slidesToShow);
 
-        if (this.isLastPage(index)) {
+        if (this.isFirstPage(index) && this.isLastPage(index)) {
+            nextIndex = 0;
+        } else if (this.isLastPage(index)) {
             nextIndex = wraps ? 0 : this.lastLeft;
         }
 
