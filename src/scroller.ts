@@ -52,6 +52,14 @@ class Resolver {
         return index > this.lastLeft && index < this.lastRight;
     }
 
+    public isFirstPage(index) {
+        return index <= this.firstRight;
+    }
+
+    public isLastPage(index) {
+        return index >= this.lastLeft;
+    }
+
     public lastSlideIsVisibleAt(index) {
         return index >= this.lastLeft && index <= this.lastRight;
     }
@@ -94,15 +102,29 @@ class Resolver {
     }
 
     public pageLeft(n = 1): number {
-        const { slidesToShow } = this.getScrollState();
+        const { index, slidesToShow, wraps } = this.getScrollState();
+        let nextIndex = index - (n * slidesToShow);
 
-        return this.slideLeft(n * slidesToShow);
+        if (this.isFirstPage(index)) {
+            nextIndex = wraps ? this.lastLeft : 0;
+        }
+
+        this.update(nextIndex);
+
+        return nextIndex;
     }
 
     public pageRight(n = 1): number {
-        const { slidesToShow } = this.getScrollState();
+        const { index, slidesToShow, wraps } = this.getScrollState();
+        let nextIndex = index + (n * slidesToShow);
 
-        return this.slideRight(n * slidesToShow);
+        if (this.isLastPage(index)) {
+            nextIndex = wraps ? 0 : this.lastLeft;
+        }
+
+        this.update(nextIndex);
+
+        return nextIndex;
     }
 }
 
