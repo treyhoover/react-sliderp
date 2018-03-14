@@ -19,7 +19,7 @@ export class Slider extends React.PureComponent<SliderProps> {
     get maxScrollLeft() {
         const { slides, slidesToShow } = this.props;
 
-        return (slides.length * this.slideWidth) - (slidesToShow * this.slideWidth);
+        return (slides.length - slidesToShow) * this.slideWidth;
     }
 
     get scrollLeft() {
