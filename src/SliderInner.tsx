@@ -9,10 +9,10 @@ const SCROLL_END_TIMEOUT = 250;
 type Touch = {
     x: number;
     y: number;
-}
+};
 
 const gridStyle = {
-    outline: "none",
+    outline: "none"
 };
 
 class SliderInner extends React.Component<ISliderCoreProps, any> {
@@ -24,10 +24,10 @@ class SliderInner extends React.Component<ISliderCoreProps, any> {
     lastTouch?: Touch = null;
 
     constructor(props: ISliderCoreProps) {
-        super();
+        super(props);
 
         this.state = {
-            scrollLeft: props.scrollLeft,
+            scrollLeft: props.scrollLeft
         };
     }
 
@@ -78,7 +78,8 @@ class SliderInner extends React.Component<ISliderCoreProps, any> {
         if (xDist / 2 < yDist) return; // ignore vertical scrolls
 
         const containerWidth = this.el._scrollingContainer.clientWidth;
-        const maxScrollLeft = this.props.columnCount * this.props.columnWidth - containerWidth;
+        const maxScrollLeft =
+            this.props.columnCount * this.props.columnWidth - containerWidth;
         const nextScrollLeft = this.scrollLeft + e.deltaX;
 
         if (nextScrollLeft > 0 && nextScrollLeft <= maxScrollLeft) {
@@ -88,7 +89,7 @@ class SliderInner extends React.Component<ISliderCoreProps, any> {
         this.onSwipe(e.deltaX);
     };
 
-    onSwipe = (deltaX) => {
+    onSwipe = deltaX => {
         this.scrollDelta += deltaX;
         this.totalScrollDelta += deltaX;
         this.onScroll();
@@ -98,8 +99,13 @@ class SliderInner extends React.Component<ISliderCoreProps, any> {
 
     onScroll = throttle(() => {
         const containerWidth = this.el._scrollingContainer.clientWidth;
-        const maxScrollLeft = this.props.columnCount * this.props.columnWidth - containerWidth;
-        const nextScrollLeft = clamp(this.state.scrollLeft + this.scrollDelta, 0, maxScrollLeft);
+        const maxScrollLeft =
+            this.props.columnCount * this.props.columnWidth - containerWidth;
+        const nextScrollLeft = clamp(
+            this.state.scrollLeft + this.scrollDelta,
+            0,
+            maxScrollLeft
+        );
 
         // check if this the start of a new scroll/slider was in sync
         if (this.state.scrollLeft === this.props.scrollLeft) {
@@ -120,7 +126,7 @@ class SliderInner extends React.Component<ISliderCoreProps, any> {
         this.props.onScroll(nextIndex);
     }, SCROLL_END_TIMEOUT);
 
-    onKeyDown = (e) => {
+    onKeyDown = e => {
         const arrowKeys = ["ArrowUp", "ArrowRight", "ArrowDown", "ArrowLeft"];
 
         if (arrowKeys.includes(e.key)) {
@@ -130,11 +136,12 @@ class SliderInner extends React.Component<ISliderCoreProps, any> {
         }
     };
 
-    getTouch = (e): Touch => "touches" in e
-        ? { x: e.touches[0].clientX, y: e.touches[0].clientY }
-        : { x: e.clientX, y: e.clientY };
+    getTouch = (e): Touch =>
+        "touches" in e
+            ? { x: e.touches[0].clientX, y: e.touches[0].clientY }
+            : { x: e.clientX, y: e.clientY };
 
-    onTouchMove = (e) => {
+    onTouchMove = e => {
         const { swipeable, swipeForce } = this.props;
         if (!swipeable) return;
 
@@ -195,24 +202,29 @@ class SliderInner extends React.Component<ISliderCoreProps, any> {
                 <Motion
                     defaultStyle={{ scrollLeft: this.scrollLeft }}
                     style={{
-                        scrollLeft: spring(stopX, { stiffness: 170, damping: 26 }),
+                        scrollLeft: spring(stopX, {
+                            stiffness: 170,
+                            damping: 26
+                        })
                     }}
                     onRest={this.handleRest}
                 >
-                    {({ scrollLeft }) => <Grid
-                        ref={this.bindRef}
-                        columnCount={this.props.columnCount}
-                        rowCount={1}
-                        width={this.props.width}
-                        height={this.props.height}
-                        cellRenderer={this.props.cellRenderer}
-                        rowHeight={this.props.height}
-                        columnWidth={this.columnWidth}
-                        scrollToAlignment="start"
-                        scrollLeft={scrollLeft}
-                        scrollingResetTimeInterval={SCROLL_END_TIMEOUT}
-                        style={gridStyle}
-                    />}
+                    {({ scrollLeft }) => (
+                        <Grid
+                            ref={this.bindRef}
+                            columnCount={this.props.columnCount}
+                            rowCount={1}
+                            width={this.props.width}
+                            height={this.props.height}
+                            cellRenderer={this.props.cellRenderer}
+                            rowHeight={this.props.height}
+                            columnWidth={this.columnWidth}
+                            scrollToAlignment="start"
+                            scrollLeft={scrollLeft}
+                            scrollingResetTimeInterval={SCROLL_END_TIMEOUT}
+                            style={gridStyle}
+                        />
+                    )}
                 </Motion>
             </div>
         );
