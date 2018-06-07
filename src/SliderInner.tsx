@@ -209,22 +209,32 @@ class SliderInner extends React.Component<ISliderCoreProps, any> {
                     }}
                     onRest={this.handleRest}
                 >
-                    {({ scrollLeft }) => (
-                        <Grid
-                            ref={this.bindRef}
-                            columnCount={this.props.columnCount}
-                            rowCount={1}
-                            width={this.props.width}
-                            height={this.props.height}
-                            cellRenderer={this.props.cellRenderer}
-                            rowHeight={this.props.height}
-                            columnWidth={this.columnWidth}
-                            scrollToAlignment="start"
-                            scrollLeft={scrollLeft}
-                            scrollingResetTimeInterval={SCROLL_END_TIMEOUT}
-                            style={gridStyle}
-                        />
-                    )}
+                    {({ scrollLeft }) => {
+                        const direction =
+                            this.props.scrollLeft > scrollLeft
+                                ? "right"
+                                : "left";
+
+                        const round =
+                            direction === "right" ? Math.ceil : Math.floor;
+
+                        return (
+                            <Grid
+                                ref={this.bindRef}
+                                columnCount={this.props.columnCount}
+                                rowCount={1}
+                                width={this.props.width}
+                                height={this.props.height}
+                                cellRenderer={this.props.cellRenderer}
+                                rowHeight={this.props.height}
+                                columnWidth={this.columnWidth}
+                                scrollToAlignment="start"
+                                scrollLeft={round(scrollLeft)}
+                                scrollingResetTimeInterval={SCROLL_END_TIMEOUT}
+                                style={gridStyle}
+                            />
+                        );
+                    }}
                 </Motion>
             </div>
         );

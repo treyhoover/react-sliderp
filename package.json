@@ -34,7 +34,7 @@
     "@types/react-virtualized": "^9.7.5",
     "lodash": "^4.17.4",
     "react-motion": "^0.5.2",
-    "react-virtualized": "^9.11.1",
+    "react-virtualized": "^9.19.1",
     "rollup-plugin-local-resolve": "^1.0.7"
   },
   "peerDependencies": {
