@@ -1,18 +1,18 @@
 import { defaults, noop } from "lodash";
 import { wrap, clamp } from "./utils";
 
-export type ScrollStateGetter = () => ({
+export type ScrollStateGetter = () => {
     index: number;
     numSlides: number;
     slidesToShow: number;
     wraps: boolean;
-});
+};
 
 const defaultScrollState = {
     index: 0,
     numSlides: 1,
     slidesToShow: 1,
-    wraps: true,
+    wraps: true
 };
 
 export type UpdateHandler = (index: number) => void;
@@ -71,7 +71,7 @@ class Resolver {
     public wrapIndex(index) {
         const { numSlides, wraps } = this.getScrollState();
 
-        return wraps ? wrap(index, numSlides) : this.clampIndex(index);
+        return wraps ? wrap(index, numSlides) : index;
     }
 
     public clampIndex(index) {
@@ -103,12 +103,12 @@ class Resolver {
 
     public pageLeft(n = 1): number {
         const { index, slidesToShow, wraps } = this.getScrollState();
-        let nextIndex = index - (n * slidesToShow);
+        let nextIndex = index - n * slidesToShow;
 
         if (this.isFirstPage(index) && this.isLastPage(index)) {
             nextIndex = 0;
         } else if (this.isFirstPage(index)) {
-            nextIndex = wraps ? this.lastLeft : 0;
+            nextIndex = wraps && index === 0 ? this.lastLeft : 0;
         }
 
         this.update(nextIndex);
@@ -118,7 +118,7 @@ class Resolver {
 
     public pageRight(n = 1): number {
         const { index, slidesToShow, wraps } = this.getScrollState();
-        let nextIndex = index + (n * slidesToShow);
+        let nextIndex = index + n * slidesToShow;
 
         if (this.isFirstPage(index) && this.isLastPage(index)) {
             nextIndex = 0;
@@ -132,7 +132,10 @@ class Resolver {
     }
 }
 
-export const createScroller = (_getState = noop, onUpdate: UpdateHandler = noop): Resolver => {
+export const createScroller = (
+    _getState = noop,
+    onUpdate: UpdateHandler = noop
+): Resolver => {
     const getState = () => defaults({}, _getState(), defaultScrollState);
 
     return new Resolver(getState, onUpdate);
