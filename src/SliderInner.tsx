@@ -127,7 +127,7 @@ class SliderInner extends React.Component<ISliderCoreProps, any> {
     }, SCROLL_END_TIMEOUT);
 
     onKeyDown = e => {
-        const arrowKeys = ["ArrowUp", "ArrowRight", "ArrowDown", "ArrowLeft"];
+        const arrowKeys = ["ArrowRight", "ArrowLeft"];
 
         if (arrowKeys.includes(e.key)) {
             e.preventDefault();
