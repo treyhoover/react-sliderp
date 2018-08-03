@@ -19,7 +19,7 @@ export class Slider extends React.PureComponent<SliderProps> {
     get maxScrollLeft() {
         const { slides, slidesToShow } = this.props;
 
-        return (slides.length * this.slideWidth) - (slidesToShow * this.slideWidth);
+        return slides.length * this.slideWidth - slidesToShow * this.slideWidth;
     }
 
     get scrollLeft() {
@@ -28,7 +28,12 @@ export class Slider extends React.PureComponent<SliderProps> {
         return clamp(scrollLeft, 0, this.maxScrollLeft);
     }
 
-    renderSlide = ({ columnIndex: index = 0, key = "", rowIndex = 0, style = {} }) => {
+    renderSlide = ({
+        columnIndex: index = 0,
+        key = "",
+        rowIndex = 0,
+        style = {}
+    }) => {
         const { slides, children: renderSlide } = this.props;
         const slide = slides[index];
 
@@ -38,7 +43,7 @@ export class Slider extends React.PureComponent<SliderProps> {
                 key={key}
                 style={{
                     ...this.props.styleContainer({ slide, index }),
-                    ...style,
+                    ...style
                 }}
             >
                 {renderSlide({ slide, index })}
@@ -47,7 +52,20 @@ export class Slider extends React.PureComponent<SliderProps> {
     };
 
     render() {
-        const { slides, width, height, slidesToShow, onScrollStart, onScroll, onRest, onArrow, scrollable, swipeable, className, swipeForce } = this.props;
+        const {
+            slides,
+            width,
+            height,
+            slidesToShow,
+            onScrollStart,
+            onScroll,
+            onRest,
+            onArrow,
+            scrollable,
+            swipeable,
+            className,
+            swipeForce
+        } = this.props;
 
         return (
             <div className={className}>
@@ -94,7 +112,7 @@ Slider.defaultProps = {
     onScrollStart: () => undefined,
     onRest: () => undefined,
     onArrow: (e: any) => undefined,
-    onResize: (dimensions: any) => undefined,
+    onResize: (dimensions: any) => undefined
 };
 
 interface SliderProps {
@@ -108,7 +126,7 @@ interface SliderProps {
     swipeForce: number;
     onScrollStart?: () => void;
     onScroll?: (obj: any) => void;
-    styleContainer?: (obj: any) => Object;
+    styleContainer?: (obj: any) => React.CSSProperties;
     onRest?: () => void;
     scrollable?: boolean;
     swipeable?: boolean;

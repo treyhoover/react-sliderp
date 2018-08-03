@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Grid } from "react-virtualized";
-import { throttle, debounce, clamp } from "lodash";
+import { throttle, debounce, clamp, isEqual } from "lodash";
 import { Motion, spring } from "react-motion";
 
 const SCROLL_THROTTLE = 50;
@@ -46,13 +46,11 @@ class SliderInner extends React.Component<ISliderCoreProps, any> {
     }
 
     componentWillReceiveProps(nextProps: ISliderCoreProps) {
-        const isExternal = nextProps !== this.props;
+        const isExternal = !isEqual(this.props, nextProps);
 
         if (isExternal) {
-            this.waitForScrollStop.flush();
-        }
+            this.waitForScrollStop.cancel();
 
-        if (nextProps.scrollLeft !== this.state.scrollLeft) {
             this.setState({ scrollLeft: nextProps.scrollLeft });
         }
     }
@@ -123,7 +121,9 @@ class SliderInner extends React.Component<ISliderCoreProps, any> {
         this.lastTouch = null;
         this.totalScrollDelta = 0;
 
-        this.props.onScroll(nextIndex);
+        this.setState({
+            scrollLeft: nextIndex * this.props.columnWidth
+        });
     }, SCROLL_END_TIMEOUT);
 
     onKeyDown = e => {
