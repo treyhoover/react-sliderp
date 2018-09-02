@@ -121,9 +121,14 @@ class SliderInner extends React.Component<ISliderCoreProps, any> {
         this.lastTouch = null;
         this.totalScrollDelta = 0;
 
-        this.setState({
-            scrollLeft: nextIndex * this.props.columnWidth
-        });
+        this.setState(
+            {
+                scrollLeft: nextIndex * this.props.columnWidth
+            },
+            () => {
+                this.props.onScroll(nextIndex);
+            }
+        );
     }, SCROLL_END_TIMEOUT);
 
     onKeyDown = e => {
