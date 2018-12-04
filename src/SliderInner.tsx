@@ -58,6 +58,10 @@ class SliderInner extends React.Component<ISliderCoreProps, any> {
     }
   }
 
+  componentWillUnmount() {
+    this.removeKeydownListener();
+  }
+
   componentDidUpdate() {
     this.el._scrollingContainer.style.overflow = "hidden";
 
