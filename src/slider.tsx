@@ -1,4 +1,4 @@
-import React, { useCallback, useLayoutEffect, useMemo, useRef } from 'react';
+import React, { useCallback, useLayoutEffect, useMemo } from 'react';
 import debounce from 'lodash.debounce';
 import smoothscroll from 'smoothscroll-polyfill';
 
@@ -27,7 +27,6 @@ export function Slider<Slide = any>({
   infinite = false,
   ...props
 }: SliderProps<Slide>) {
-  const lastIndex = useRef(0);
   const renderedSlides = useMemo(() => (infinite ? duplicateSlides<Slide>(slides) : slides), [slides, infinite]);
 
   // Adjust scroll position to center
@@ -62,7 +61,6 @@ export function Slider<Slide = any>({
       const currentIndex = parseInt(currentSlide?.dataset?.index ?? '0', 10);
 
       if (typeof onChange === 'function') {
-        lastIndex.current = currentIndex;
         onChange(currentIndex);
       }
     }, scrollEndDebounce),
