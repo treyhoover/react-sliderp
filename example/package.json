@@ -13,7 +13,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.3",
-    "react-sliderp": "^0.0.18",
+    "react-sliderp": "1.0.0-beta.0",
     "typescript": "~3.7.2"
   },
   "scripts": {
